@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "467788212563",
+    "project_id": "yachay-prompts",
+    "storage_bucket": "yachay-prompts.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467788212563:android:82aa5b59754f4f8e6159a6",
+        "android_client_info": {
+          "package_name": "com.bsn.yachayprompt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBNb9pqaELjB46dF6XKRqA4W995dYOIAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467788212563:android:6818cec8d2fc89616159a6",
+        "android_client_info": {
+          "package_name": "com.example.yachayprompt_admin_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBNb9pqaELjB46dF6XKRqA4W995dYOIAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

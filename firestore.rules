@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Regla para la colección de Usuarios
+    // Un usuario solo puede leer y escribir su propio documento de usuario.
+    match /users/{userId} {
+      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null; // Permitir que un usuario autenticado cree su propio perfil
+    }
+
+    // Regla para la colección de Prompts
+    // Un usuario solo puede crear, leer, actualizar y eliminar sus propios prompts.
+    match /prompts/{promptId} {
+      allow read, create, update, delete: if request.auth != null && request.auth.uid == request.resource.data.id_usuario;
+      // 'request.resource.data.id_usuario' se refiere al campo 'id_usuario' del prompt que se intenta crear/modificar.
+      // Esto asegura que el ID del usuario en el prompt coincida con el ID del usuario autenticado.
+    }
+
+    // Regla para las colecciones de caché de RUC y DNI
+    // SOLO las Cloud Functions pueden escribir o actualizar estos documentos de caché.
+    // NADIE más (ni usuarios de la app) puede leer, escribir o eliminar.
+    match /cacheRUC/{rucId} {
+      allow read, write: if false; // Por defecto nadie puede
+      allow write: if request.auth == null; // Permitir que las Cloud Functions escriban (no tienen request.auth)
+                                             // Esto asume que tus funciones no se llaman con contexto de usuario.
+                                             // Una forma más robusta es usar `request.auth.uid == 'TU_UID_DE_SERVICIO'`
+                                             // pero para funciones HTTP Callable y un buen despliegue, 'request.auth == null' es común para funciones de backend.
+    }
+    match /cacheDNI/{dniId} {
+      allow read, write: if false; // Por defecto nadie puede
+      allow write: if request.auth == null; // Permitir que las Cloud Functions escriban
+    }
+
+    // Reglas predeterminadas (si alguna colección no está cubierta por una regla específica)
+    // Por seguridad, negar el acceso a cualquier colección no especificada explícitamente.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

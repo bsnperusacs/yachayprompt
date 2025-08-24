@@ -17,7 +17,7 @@
     "axios": "^1.9.0",
     "firebase-admin": "^11.11.1",
     "firebase-functions": "^6.4.0",
-    "mercadopago": "^2.8.0",
+    "mercadopago": "^1.5.13",
     "openai": "^5.1.1"
   },
   "devDependencies": {

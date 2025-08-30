@@ -1,38 +1,50 @@
-const { onCall, onRequest } = require("firebase-functions/v2/https");
+// functions/index.js
 const admin = require("firebase-admin");
-admin.initializeApp();
+if (!admin.apps.length) admin.initializeApp();
 
 const auth = require("./auth");
 const consultas = require("./consultas");
 const getPlanesGrupales = require("./getPlanesGrupales");
-const creargrupos = require("./creargrupos");
+const grupos = require("./creargrupos");
 const paquetes = require("./paquetes");
 const planesIndividuales = require("./planes_individuales");
 const webhook = require("./webhook");
-
-// ⬇️ NUEVO: demo de pago único S/ 1.99
 const demoPago = require("./demo_pago");
+const notificaciones = require("./notificaciones");
+const support = require("./support");
+const reports = require("./reports");
 
 module.exports = {
-  // 🔐 Funciones de autenticación
+  // 🔐 Auth
   ...auth,
 
-  // 🧾 Consultas RUC/DNI
+  // 📄 Consultas externas
   ...consultas,
 
-  // 📦 Paquetes individuales
+  // 📦 Paquetes
   procesarPagoPaquete: paquetes.procesarPagoPaquete,
 
-  // 🎯 Planes individuales
+  // 👤 Planes individuales
   procesarPagoIndividual: planesIndividuales.procesarPagoIndividual,
 
-  // 👥 Planes grupales
-  crearGrupoConPago: creargrupos.crearGrupoConPago,
-  ...getPlanesGrupales,
+  // 👥 Grupos
+  crearGrupo: grupos.crearGrupo,
+  unirseAGrupo: grupos.unirseAGrupo,
+  cerrarGrupo: grupos.cerrarGrupo,
+  crearPagoGrupal: grupos.crearPagoGrupal,
 
-  // 📡 Webhook de Mercado Pago
+  // 📡 Webhook MercadoPago
   ...webhook,
 
-  // 💳 Demo pago único (S/ 1.99)
+  // 💳 Demo de pago
   demoPago: demoPago.demoPago,
+
+  // 🔔 Notificaciones push
+  ...notificaciones,
+
+  // 🛠️ Funciones de soporte
+  ...support,
+
+  // 📊 Reportes
+  ...reports,
 };
